@@ -143,6 +143,7 @@ class SupervisedDataset(Dataset):
     def __init__(self, data_path: str, tokenizer: transformers.PreTrainedTokenizer):
         super(SupervisedDataset, self).__init__()
         logging.warning("Loading data...")
+        # load for extra tuning data
         list_data_dict = utils.jload(data_path)
 
         logging.warning("Formatting inputs...")
@@ -151,12 +152,11 @@ class SupervisedDataset(Dataset):
         #sources = [
         #    prompt_input.format_map(example) if example.get("input", "") != "" else prompt_no_input.format_map(example)
         #    for example in list_data_dict
-        #]
-        
+        #]   
 
+        # load for original dataset
         ds = load_dataset("databricks/databricks-dolly-15k")
         ds = ds['train']
-
 
         prompt_input, prompt_no_input = PROMPT_DICT["prompt_input"], PROMPT_DICT["prompt_no_input"]
         
